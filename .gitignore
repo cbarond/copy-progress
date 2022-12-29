@@ -1,0 +1,5 @@
+# Compiled
+__pycache__
+
+# Distribution
+dist/

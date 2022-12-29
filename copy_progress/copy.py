@@ -15,21 +15,39 @@ progress = Progress(
     TotalFileSizeColumn()
 )
 
-if __name__ == "__main__":
+def copy_dir():
+    files = os.listdir(sys.argv[1])
+    print(files)
+    with progress as progress:
+        for item in files:
+            arg1 = os.path.join(sys.argv[1], item)
+            arg2 = os.path.join(sys.argv[2], item)
+            desc = os.path.basename(arg1)
+            with progress.open(arg1, "rb", description=desc) as src:
+                with open(arg2, "wb") as dst:
+                    shutil.copyfileobj(src, dst)
+
+def copy_file():
+    with progress as progress:
+        arg1 = sys.argv[1]
+        arg2 = sys.argv[2]
+        desc = os.path.basename(arg1)
+        with progress.open(arg1, "rb", description=desc) as src:
+            with open(arg2, "wb") as dst:
+                shutil.copyfileobj(src, dst)
+    
+def main():
     if len(sys.argv) == 3:
-        files = os.listdir(sys.argv[1])
-        print(files)
-        with progress as progress:
-            for item in files:
-                arg1 = os.path.join(sys.argv[1], item)
-                arg2 = os.path.join(sys.argv[2], item)
-                desc = os.path.basename(arg1)
-                with progress.open(arg1, "rb", description=desc) as src:
-                    with open(arg2, "wb") as dst:
-                        shutil.copyfileobj(src, dst)
+        if os.path.isdir(sys.argv[1]):
+            copy_dir()
+        if os.path.isfile(sys.argv[1]):
+            copy_file()
     else:
         print("Copy a file with a progress bar.")
         print("Usage:\n\tpython cp_progress.py SRC DST")
+
+if __name__ == "__main__":
+    main()
 
 """ 
 if __name__ == "__main__":

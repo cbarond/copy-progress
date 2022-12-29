@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "copy-progress"
-version = "0.1.0"
+version = "0.1.1"
 description = "Copy files or directories to a new location with progress bars for each item."
 authors = ["Caelan Barondess <cbarondess19@gmail.com>"]
 license = "MIT"
@@ -11,6 +11,8 @@ packages = [{include = "copy_progress"}]
 python = "^3.8"
 rich = "^12.6.0"
 
+[tool.poetry.scripts]
+copy-progress = 'copy_progress.copy:main'
 
 [build-system]
 requires = ["poetry-core"]
